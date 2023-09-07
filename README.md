@@ -5,6 +5,10 @@
 
 This project leverages the ASP.NET Web API and ASP.NET Web App Razor Pages, both on the .NET 7 platform. It's essential to have the .NET 7 runtime for local execution. The project uses SQL Server for storage solutions and integrates Azure App Insights with Serilog for monitoring.
 
+#### Time to code: `27 hours`.
+
+![alt text](https://i.imgur.com/e1ZwEOw.png)
+
 ### Configuration
 
 The project comes with an `appsettings.json` configuration file. Replace the placeholders marked as `[REPLACE IN SECRETS]` directly in the file or set them as secrets in your local environment.
