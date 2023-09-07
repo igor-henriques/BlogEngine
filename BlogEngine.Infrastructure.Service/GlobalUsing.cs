@@ -1,0 +1,12 @@
+﻿global using BlogEngine.Core.Enums;
+global using BlogEngine.Core.Shared;
+global using BlogEngine.Domain.Interfaces.Services;
+global using BlogEngine.Core.Authentication;
+global using BlogEngine.Domain.Models.Options;
+global using Microsoft.Extensions.Options;
+global using Microsoft.IdentityModel.Tokens;
+global using System.IdentityModel.Tokens.Jwt;
+global using System.Security.Claims;
+global using System.Text;
+global using BlogEngine.Domain.Entities;
+global using FluentValidation;

@@ -1,0 +1,35 @@
+﻿@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Your Blog</title>
+    <link rel="stylesheet" href="/css/login-register.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <form method="post" class="login-form">
+                <h1>Login</h1>
+                <div class="input-group">
+                    <input type="email" name="email" id="email" placeholder="Email" asp-for="LoginViewModel.Email">
+                    <span asp-validation-for="LoginViewModel.Email" class="text-danger"></span>
+                </div>
+                <div class="input-group">
+                    <input type="password" name="password" id="password" placeholder="Password" asp-for="LoginViewModel.Password">                    
+                    <span asp-validation-for="LoginViewModel.Password" class="text-danger"></span>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+            <div class="switch">
+                <p>Don't have an account? <a href="/User/Register">Register</a></p>
+            </div>
+        </div>
+    </div>    
+</body>
+</html>

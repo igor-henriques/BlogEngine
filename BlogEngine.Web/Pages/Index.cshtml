@@ -1,0 +1,168 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Blog Posts Overview";
+    bool hasAnyPost = Model.BlogPosts.Any();
+}
+<link rel="stylesheet" href="/css/site.css" />
+
+<div class="center-screen">
+    @if (hasAnyPost)
+    {
+        <div class="row align-items-center justify-content-center full-height">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-auto navigation-buttons">
+                    <button class="nav-button rounded-circle prev disabled" disabled="disabled"><i class="fa-solid fa-arrow-left"></i></button>
+                </div>
+                <div class="col post-container">
+                    @foreach (var post in Model.BlogPosts)
+                    {
+                        <div class="card">
+                            <center><h2>@post.Title</h2></center>
+                            <p class="post-card-content">@Html.Raw(post.Content)</p>
+                            <button class="show-comments" data-post-id="@post.Id">Show Comments</button>
+                            <div class="comments" id="comments-@post.Id">                                
+                                @foreach (var comment in post.Comments)
+                                {
+                                    <div class="comment">
+                                        <div class="comment-header">
+                                            <h4>@comment.Username</h4>
+                                            <span>@comment.PublishDateTime.ToString("g")</span>
+                                        </div>
+                                        <p>@Html.Raw(comment.Content);</p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="col-auto navigation-buttons">
+                    <button class="nav-button rounded-circle next @(Model.HasNextPage ? string.Empty : "disabled")" @(Model.HasNextPage ? string.Empty : "disabled=\"disabled\"")><i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p>Whoops! No posts yet.</p>
+        if (User.Identity.IsAuthenticated)
+        {
+            <p><a href="/CreatePost">Create one?</a></p>
+        }
+    }    
+</div>
+
+<script>
+    
+
+    document.addEventListener('DOMContentLoaded', function () {
+        let currentPage = 1;
+        const prevButton = document.querySelector('.prev');
+        const nextButton = document.querySelector('.next');
+
+        prevButton.addEventListener('click', function () {
+            currentPage--;
+            loadPage(currentPage);
+        });
+
+        nextButton.addEventListener('click', function () {
+            currentPage++;
+            loadPage(currentPage);
+        });
+
+        addShowCommentsListeners()
+    });
+
+    function loadPage(currentPage) {
+        fetch(`/Index?handler=LoadPage&currentPage=${currentPage}`, {
+            method: 'GET'
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Atualizar a página atual com base na resposta
+                currentPage = data.pageNumber;
+                const totalPages = data.totalPages; // assumindo que você retorna isso do backend
+
+                const postContainer = document.querySelector('.post-container');
+                const newHtml = data.data.map(createPostHtml).join('');
+
+                postContainer.classList.add('slide-out');
+
+                setTimeout(() => {
+                    postContainer.innerHTML = newHtml;
+                    postContainer.classList.remove('slide-out');
+                    postContainer.classList.add('slide-in');
+
+                    setTimeout(() => {
+                        postContainer.classList.remove('slide-in');
+                    }, 150);
+
+                    addShowCommentsListeners();
+                }, 150);
+                
+                const prevButton = document.querySelector('.prev');
+                const nextButton = document.querySelector('.next');
+
+                if (currentPage <= 1) {
+                    prevButton.disabled = true;
+                    prevButton.classList.add('disabled');
+                } else {
+                    prevButton.disabled = false;
+                    prevButton.classList.remove('disabled');
+                }
+
+                if (currentPage >= totalPages) {
+                    nextButton.disabled = true;
+                    nextButton.classList.add('disabled');
+                } else {
+                    nextButton.disabled = false;
+                    nextButton.classList.remove('disabled');
+                }
+            })
+            .catch(err => {
+                console.error('Load page failed: ', err);
+            });
+    }
+
+    function createPostHtml(post) {
+        const commentHtml = post.comments.map(comment => `
+                        <div class="comment">
+                            <div class="comment-header">
+                                <h4>${comment.username}</h4>
+                                <span>${new Date(comment.publishDateTime).toLocaleString()}</span>
+                            </div>
+                            <p>${comment.content}</p>
+                        </div>
+                    `).join('');
+
+        return `
+                        <div class="card">
+                            <center><h2>${post.title}</h2></center>
+                            <p class="post-card-content">${post.content}</p>
+                            <button class="show-comments" data-post-id="${post.id}">Show Comments</button>
+                            <div class="comments" id="comments-${post.id}">
+                                ${commentHtml}
+                            </div>
+                        </div>
+                    `;
+    }
+
+    function addShowCommentsListeners() {
+        const showCommentButtons = document.querySelectorAll('.show-comments');
+        showCommentButtons.forEach(button => {
+            button.removeEventListener('click', toggleComments);
+            button.addEventListener('click', toggleComments);
+        });
+    }
+
+    function toggleComments() {
+        const postId = this.getAttribute('data-post-id');
+        const commentSection = document.getElementById(`comments-${postId}`);
+        commentSection.classList.toggle('expanded');
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        addShowCommentsListeners();
+        // o resto do seu código
+    });
+</script>

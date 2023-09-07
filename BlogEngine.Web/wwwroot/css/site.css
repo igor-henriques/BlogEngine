@@ -1,0 +1,189 @@
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+.html {
+    font-size: 16px;
+    position: relative;
+    min-height: 100%;
+}
+
+html, body {
+    overflow-x: hidden !important;
+}
+
+.hidden {
+    display: none;
+}
+
+.body {
+    margin-bottom: 60px;
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+}
+
+.carousel {
+    display: flex;
+    text-align: center;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    width: 900px;
+    max-width: 100%;    
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.comment {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.navigation-buttons {
+    position: sticky;
+    bottom: 0;
+}
+
+.prev, .next {
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #333;
+}
+
+.prev:hover, .next:hover {
+    color: #007bff;
+}
+
+.prev:focus, .next:focus {
+    outline: none;
+    box-shadow: none;
+}
+.nav-button {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f4f4
+}
+
+.center-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh; 
+}
+
+.full-height {
+    height: 100%;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.show-comments {
+    width: 100%;
+    background-color: #fff;
+    border: none;
+    color: #333;
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    outline: none;
+    font-weight: bold;    
+}
+
+.post-card-content {
+    text-align: justify
+}
+
+.show-comments:hover {
+    background-color: #f2f2f2;
+    outline: none;
+}
+
+.show-comments:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.comments {
+    max-height: 0px; 
+    overflow-y: auto;
+    transition: max-height 0.4s ease-in-out;
+}
+
+.comments.expanded {
+    max-height: 350px; 
+}
+
+.nav-button.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.slide-in {
+    animation: slideIn 0.15s ease-out, fadeIn 0.15s ease-out;
+}
+
+.slide-out {
+    animation: slideOut 0.15s ease-in, fadeOut 0.15s ease-in;
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOut {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
